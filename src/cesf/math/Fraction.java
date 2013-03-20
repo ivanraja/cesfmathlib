@@ -1,28 +1,17 @@
 package cesf.math;
 
-/** Classe que representa fraccions enteres.
- * <p>Aquesta &eacute;s una classe inmutable.</p>
- * @author Iv&aacute;n Raja
- */
+// classe immutable per a representar fraccions enteres
 public class Fraction {
 
 	private final int num;
 	private final int den;
 	
-	/**Constructor per defecte de la classe Fraction.
-	 * <p>Aqu&iacute; s'inicialitzen les variables utilitzades a la classe: num i den.</p>
-	 */
+	// constructor per defecte
 	public Fraction() { 
 		num=0; 
 		den=1;
 	}
-	
-	/** Constructor de la classe Fraction.
-	 * <p>Aquest constructor rep dos par&agrave;metres: el numerador i el denominador respectivament.</p>
-	 * <p>El denominador proporcionat no pot ser mai zero. Si ho fos, retornaria una excepci&oacute;.</p>
-	 * @param num <p>Variable corresponent al numerador.</p>
-	 * @param den <p>Variable corresponent al denominador.</p>
-	 */
+	// constructor amb paràmetres 
 	public Fraction(int num, int den) { 
 		if (den == 0) 
 			throw new IllegalArgumentException("Denominator can not be zero!"); 
@@ -30,44 +19,28 @@ public class Fraction {
 		this.den = den; 
 	}
 
-	/**
-	 * @return Retorna el numerador.
-	 */
+	// getters
 	public int getNum() { return this.num; }
-	
-	/**
-	 * @return Retorna el denominador.
-	 */
 	public int getDen() { return this.den; }
 	
-	/**
-	 * @return Valor en format num&egrave;ric de la fracci&oacute;.
-	 */
+	// retorna el valor numèric de la fracció
 	public double valueOf() {
 		double x = (double)(this.num) / this.den; 
 		return x;
 	}
 	
-	/**
-	 * 
-	 * @param a Una fracci&oacute;.
-	 * @return Valor en format num&egrave;ric de la fracci&oacute; en versi&oacute; est&agrave;tica.
-	 */
+	// retorna el valor numèric d'una fracció (versió estàtica)
 	public static double valueOf(Fraction a) {
 		double x = (double)(a.num) / a.den; 
 		return x;		
 	}
 	
-	/** Funci&oacute; que retorna una representaci&oacute; en cadena de text.
-	 * @return Representaci&oacute; formatada d'una fracci&oacute; en cadena de text.
-	 */
+	// retorna una representació en cadena de text
 	public String toString() {
 		return this.num + "/" + this.den;
 	}
 	
-	/** Funci&oacute; que simplifica la fracci&oacute; al m&agrave;xim.
-	 * @return Fracci&oacute; reduida.
-	 */
+	// simplifica la fracció al màxim
 	public Fraction reduce() {
 		int mcd = mcd(this.num, this.den);
 		int n = this.num / mcd;
@@ -76,64 +49,45 @@ public class Fraction {
 		return new Fraction(n, d);
 	}
 	
-	/** Funci&oacute; que suma dues fraccions.
-	 * @param b Una fracci&oacute;.
-	 * @return Suma de dues fraccions posteriorment reduides.
-	 */
+	// retorna F1 + F2
 	public Fraction add(Fraction b) {
 		int n = this.num * b.den + this.den * b.num;
 		int d = this.den * b.den;
 		return new Fraction(n, d).reduce();
 	}
 	
-	/** Funci&oacute; que resta dues fraccions.
-	 * @param b Una fracci&oacute;.
-	 * @return Resta de dues fraccions posteriorment reduides.
-	 */
+	// retorna F1 - F2
 	public Fraction substract(Fraction b) {
 		int n = this.num * b.den - this.den * b.num;
 		int d = this.den * b.den;
 		return new Fraction(n, d).reduce();
 	}
 	
-	/** Funci&oacute; que multiplica dues fraccions.
-	 * @param b Una fracci&oacute;.
-	 * @return Multiplicaci&oacute; de dues fraccions posteriorment reduides.
-	 */
+	// retorna F1 * F2
 	public Fraction multiply(Fraction b) {
 		int n = this.num * b.num;
 		int d = this.den * b.den;
 		return new Fraction(n, d).reduce();
 	}
 	
-	/** Funci&oacute; que multiplica una fracci&oacute; per un nombre proporcionat.
-	 * @param x Un nombre.
-	 * @return Multiplicaci&oacute; d'una fracci&oacute; i un nombre posteriorment reduida.
-	 */
+	// retorna F1 * x
 	public Fraction multiply(int x) {
 		int n = this.num * x;
 		int d = this.den;
 		return new Fraction(n, d).reduce();
 	}
 	
-	/** Funci&oacute; que divideix dues fraccions.
-	 * @param b Una fracci&oacute;.
-	 * @return Divisi&oacute; de dues fraccions posteriorment reduides.
-	 */
+	// retorna F1 / F2
 	public Fraction divide(Fraction b) {
 		return this.multiply(b.reciprocal());
 	}
 
-	// retorna 1 / F (nota*: ?¿?¿?¿)
+	// retorna 1 / F
 	public Fraction reciprocal() {
 		return new Fraction(this.den, this.num).reduce();
 	}
 	
-	/** Funci&oacute; que troba el m&iacute;nim com&uacute; divisor del numerador i denominador.
-	 * @param a Un numerador.
-	 * @param b Un denominador.
-	 * @return MCD del numerador i denominador proporcionats.
-	 */
+	// troba el MCD del numerador i denominador
 	protected int mcd(int a, int b) {
 		int d; 
 		while (b != 0) {
@@ -145,10 +99,6 @@ public class Fraction {
 	}
 
 	// compara dos fraccions
-	/** Funci&oacute; que compara dues fraccions.
-	 * @param b Una fracci&oacute;.
-	 * @return Retorna verdader si les fraccions s&oacute;n iguals. Retorna fals si no ho s&oacute;n.
-	 */
 	public boolean equals(Fraction b) {
 		Fraction f1 = this.reduce();
 		Fraction f2 = b.reduce();

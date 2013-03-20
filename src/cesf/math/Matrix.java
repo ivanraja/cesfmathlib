@@ -1,31 +1,21 @@
 package cesf.math;
 
-/** Classe de representaci&oacute; i manipulaci&oacute; de matrius de nombres reals.
- * <p>Recopilaci&oacute; de funcions b&agrave;siques de c&agrave;lcul sobre matrius M x N.</p>
- * <p>Aquesta &eacute;s una classe inmutable.</p>
- * @author Iv&aacute;n Raja
- */
+// classe immutable per a la representació i manipulació de matrius
+// de nombres reals. Aporta les funcions bàsiques de càlcul sobre
+// matrius M x N.
 final public class Matrix {
-    
-    private final int M;             
-    private final int N;             
-    private final double[][] data;   
+    private final int M;             // núm. files
+    private final int N;             // núm. columnes
+    private final double[][] data;   // matriu MxN de dades
 
-    /** Constructor de la classe Matrix.
-     * <p>Crea una matriu M x N amb zeros</p>
-     * @param M N&uacute;mero de files
-     * @param N N&uacute;mero de columnes
-     */
+    // crea matriu M x N amb zeros
     public Matrix(int M, int N) {
         this.M = M;
         this.N = N;
         data = new double[M][N];
     }
 
-    /** Constructor de la classe Matrix.
-     * <p>Crea una matriu a partir d'una matriu bidimensional proporcionada.</p>
-     * @param data Matriu bidimensional
-     */
+    // crea matriu a partir d'una matriu 2d d'entrada
     public Matrix(double[][] data) {
         M = data.length;
         N = data[0].length;
@@ -35,18 +25,12 @@ final public class Matrix {
             	this.data[i][j] = data[i][j];
     }
 
-    /** Constructor de c&ograve;pia
-     * @param A Matriu M x N
-     */
+    // constructor de còpia
     private Matrix(Matrix A) {
     	this(A.data); 
     }
 
-    /** Funci&oacute; que retorna una matriu MxN amb valors entre 0 i 1.
-     * @param M N&uacute;mero de files
-     * @param N N&uacute;mero de columnes
-     * @return Matriu M x N aleat&ograve;ria.
-     */
+    // crea i retorna una matriu MxN aleatòria (valors entre 0 i 1)
     public static Matrix random(int M, int N) {
         Matrix A = new Matrix(M, N);
         for (int i = 0; i < M; i++)
@@ -55,10 +39,7 @@ final public class Matrix {
         return A;
     }
 
-    /** Funci&oacute; que retorna una matriu MxN identitat (uns a la diagonal).
-     * @param N N&uacute;mero de columnes
-     * @return Matriu M x N identitat
-     */
+    // crea i retorna una matriu NxN identitat (uns a la diagonal)
     public static Matrix identity(int N) {
         Matrix I = new Matrix(N, N);
         for (int i = 0; i < N; i++)
@@ -66,20 +47,14 @@ final public class Matrix {
         return I;
     }
 
-    /** Funci&oacute; que intercanvia les files "i" i "j".
-     * @param i Una fila
-     * @param j Una fila
-     */
+    // intercanviar files i i j
     public void swapRows(int i, int j) {
         double[] temp = data[i];
         data[i] = data[j];
         data[j] = temp;
     }
 
-    /** Funci&oacute; que intercanvia les columnes "i" i "j".
-     * @param i Una columna
-     * @param j Una columna
-     */
+    // intercanviar columnes i i j
     public void swapColumns(int i, int j) {
     	for (int r = 0; r < M; r++) {
     		double temp = data[r][i];
@@ -88,9 +63,7 @@ final public class Matrix {
     	}
     }
 
-    /** Funci&oacute; que crea i retorna la matriu transposada de la matriu actual. 
-     * @return Matriu transposada de l'actual.
-     */
+    // crea i retorna la matriu transposada de l'actual
     public Matrix transpose() {
         Matrix A = new Matrix(N, M);
         for (int i = 0; i < M; i++)
@@ -99,10 +72,7 @@ final public class Matrix {
         return A;
     }
 
-    /** Funci&oacute; que suma dues matrius i retorna el resultat.
-     * @param B Una matriu
-     * @return Suma de dues matrius.
-     */
+    // retorna C = A + B
     public Matrix add(Matrix B) {
         Matrix A = this;
         if (B.M != A.M || B.N != A.N)
@@ -114,10 +84,7 @@ final public class Matrix {
         return C;
     }
 
-    /** Funci&oacute; que resta dues matrius i retorna el resultat.
-     * @param B Una matriu
-     * @return Resta de dues matrius.
-     */
+    // retorna C = A - B
     public Matrix substract(Matrix B) {
         Matrix A = this;
         if (B.M != A.M || B.N != A.N) 
@@ -129,11 +96,7 @@ final public class Matrix {
         return C;
     }
 
-    /** Funci&oacute; que compara dues matrius.
-     * <p>La comparaci&oacute; es fa a partir dels valors de les mateixes.</p>
-     * @param B Una matriu
-     * @return Retorna verdader si les matrius s&oacute;n iguals. Retorna fals en cas contrari.
-     */
+    // compara dos matrius a partir dels valors
     public boolean equals(Matrix B) {
         Matrix A = this;
         if (B.M != A.M || B.N != A.N) 
@@ -145,10 +108,7 @@ final public class Matrix {
         return true;
     }
 
-    /** Funci&oacute; que multiplica dues matrius i retorna el resultat.
-     * @param B Una matriu
-     * @return Multiplicaci&oacute; de dues matrius.
-     */
+    // retorna C = A * B
     public Matrix multiply(Matrix B) {
         Matrix A = this;
         if (A.N != B.M) 
@@ -161,28 +121,33 @@ final public class Matrix {
         return C;
     }
 
-    /** Funci&oacute; que soluciona el sistema a partir d'una matriu proporcionada.
-     * <p>La matriu proporcionada ha de ser d'una sola columna i tenir els resultats de les equacions.</p>
-     * <p>La matriu actual ha de contenir els coeficients i tenir el rang adient per ser resoluble (a m&eacute;s de ser quadrada).</p>
-     * @param rhs Una matriu d'una sola columna
-     * @return Sistema de matriu.
-     */
+    // retorna x = A^-1*b (soluciona el sistema)
+    // la matriu subministrada ha de ser d'una sola columna
+    // i contenir els resultats de les equacions. La matriu
+    // actual ha de contenir els coeficients i tenir el
+    // rang adient per ser resoluble (a més de ser quadrada)
     public Matrix solve(Matrix rhs) {
         if (M != N || rhs.M != N || rhs.N != 1)
             throw new RuntimeException("Illegal matrix dimensions.");
+        // crear còpies de les dades
         Matrix A = new Matrix(this);
         Matrix b = new Matrix(rhs);
+        // eliminació Gaussiana amb pivotat parcial
         for (int i = 0; i < N; i++) {
+            // trobar fila sobre la qual pivotar i intercanviar
             int max = i;
             for (int j = i + 1; j < N; j++)
                 if (Math.abs(A.data[j][i]) > Math.abs(A.data[max][i]))
                     max = j;
             A.swapRows(i, max);
             b.swapRows(i, max);
+            // singular
             if (A.data[i][i] == 0.0) 
             	throw new RuntimeException("Matrix is singular.");
+            // pivotar amb b
             for (int j = i + 1; j < N; j++)
                 b.data[j][0] -= b.data[i][0] * A.data[j][i] / A.data[i][i];
+            // pivotar amb A
             for (int j = i + 1; j < N; j++) {
                 double m = A.data[j][i] / A.data[i][i];
                 for (int k = i+1; k < N; k++) {
@@ -191,6 +156,7 @@ final public class Matrix {
                 A.data[j][i] = 0.0;
             }
         }
+        // substitució enrera
         Matrix x = new Matrix(N, 1);
         for (int j = N - 1; j >= 0; j--) {
             double t = 0.0;
@@ -201,9 +167,7 @@ final public class Matrix {
         return x;
     }
 
-    /** Funci&oacute; que retorna una representaci&oacute; en cadena de text.
-	 * @return Representaci&oacute; formatada en cadena de text.
-	 */
+    // retorna una representació en cadena de text
     public String toString() {
     	String res = "";
         for (int i = 0; i < M; i++) {

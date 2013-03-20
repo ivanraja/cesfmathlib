@@ -7,10 +7,12 @@ package cesf.math;
  * imagin&agrave;ria (b).</p>
  * <p>Els nombres complexos ens ofereixen grans possibilitats de c&agrave;lculs, 
  * adem&eacute; d'acceptar tot tipus d'operacions.</p>
- * @author Iv&aacute;n Raja
 */
 public class Complex {
-	
+	/**
+	 * @param re <p>Variable corresponent a la part real.</p>
+	 * @param im <p>Variable corresponent a la part imagin&agrave;ria.</p>
+	 */
 	private final double re;
 	private final double im;
 	
@@ -164,6 +166,7 @@ public class Complex {
         return new Complex(real, imag);
     }
 
+    // Retorna la tangent del complex
     /** Funci&oacute; que calcula la tangent d'un nombre complex.
      * 
      * @return Tangent del nombre complex actual.
@@ -172,6 +175,7 @@ public class Complex {
         return sin().divide(cos());
     }
     
+    // versió estàtica de la funció suma
     /** Funci&oacute; en format est&agrave;tic de suma
      * 
      * @param a Primer nombre
@@ -183,4 +187,6 @@ public class Complex {
         double imag = a.im + b.im;
         return new Complex(real, imag);
     }
+
+
 }
